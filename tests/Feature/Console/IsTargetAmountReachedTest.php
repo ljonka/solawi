@@ -18,7 +18,7 @@ use Tests\TestCase;
  */
 class IsTargetAmountReachedTest extends TestCase
 {
-    public function testNotAllOffersMade()
+    public function test_not_all_offers_made()
     {
         /** @var BidderRound $bidderRound */
         $bidderRound = BidderRound::query()->create([
@@ -35,7 +35,7 @@ class IsTargetAmountReachedTest extends TestCase
         $this->artisan('bidderRound:targetAmountReached')->assertExitCode(EnumTargetAmountReachedStatus::NOT_ALL_OFFERS_GIVEN);
     }
 
-    public function testNotEnoughMoney()
+    public function test_not_enough_money()
     {
         $offers = 30;
         /** @var BidderRound $bidderRound */
@@ -63,7 +63,7 @@ class IsTargetAmountReachedTest extends TestCase
         $this->artisan('bidderRound:targetAmountReached')->assertExitCode(EnumTargetAmountReachedStatus::NOT_ALL_OFFERS_GIVEN);
     }
 
-    public function testIsTargetAmountReached()
+    public function test_is_target_amount_reached()
     {
         $countRounds = 3;
         /** @var BidderRound $bidderRound */
@@ -103,7 +103,7 @@ class IsTargetAmountReachedTest extends TestCase
         $this->assertEquals(2, $bidderRound->bidderRoundReport->roundWon, 'Not the matching round has been found');
     }
 
-    public function testBreakBecauseOfExistingRoundWon()
+    public function test_break_because_of_existing_round_won()
     {
         /** @var BidderRound $bidderRound */
         $bidderRound = BidderRound::query()->create();
@@ -118,7 +118,7 @@ class IsTargetAmountReachedTest extends TestCase
         $this->artisan('bidderRound:targetAmountReached')->assertExitCode(EnumTargetAmountReachedStatus::ROUND_ALREADY_PROCESSED);
     }
 
-    public function testTargetAmountReachedWithSomeMixedSharedCounts()
+    public function test_target_amount_reached_with_some_mixed_shared_counts()
     {
         // TODO write this test
 

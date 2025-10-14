@@ -62,7 +62,7 @@ class BidderRoundResource extends Resource
                     TextInput::make('currentStatus')
                         ->label(trans('Current Status'))
                         ->afterStateHydrated(
-                            function (TextInput $component, BidderRound|null $record) {
+                            function (TextInput $component, ?BidderRound $record) {
                                 $state = match (true) {
                                     $record?->bidderRoundReport()->exists() => trans('Die Bieterrunde wurde erfolgreich abgeschlossen'),
                                     $record?->bidderRoundBetweenNow() => trans('Die Bieterrunde läuft gerade'),
@@ -83,7 +83,7 @@ class BidderRoundResource extends Resource
                         ->disabled()
                         ->hidden()
                         ->afterStateHydrated(
-                            function (TextInput $component, BidderRound|null $record) {
+                            function (TextInput $component, ?BidderRound $record) {
                                 if (! isset($record)) {
                                     return;
                                 }

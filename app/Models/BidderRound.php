@@ -29,9 +29,9 @@ use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
  */
 class BidderRound extends BaseModel
 {
-    use HasFactory;
-    use BidderRoundRelations;
     use BelongsToTenant;
+    use BidderRoundRelations;
+    use HasFactory;
 
     public const TABLE = 'bidderRound';
 

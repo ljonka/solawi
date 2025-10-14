@@ -21,7 +21,7 @@ class BidderRoundService
      *
      * @return Collection<Offer>
      */
-    public static function getOffers(BidderRound|null $bidderRound, User $user): Collection
+    public static function getOffers(?BidderRound $bidderRound, User $user): Collection
     {
         if (! isset($bidderRound)) {
             return collect();

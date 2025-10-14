@@ -33,7 +33,7 @@ class ReminderOfBidderRound extends Notification
 
     public function toMail(): MailMessage
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->greeting(trans('Servus :name', ['name' => $this->participant->name()]))
             ->line(trans(
                 'Die Bieterrunde endet am :endOfSubmission und uns ist aufgefallen, dass dein Gebot noch fehlt.',

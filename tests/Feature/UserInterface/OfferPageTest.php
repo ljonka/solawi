@@ -8,6 +8,7 @@ use App\Models\Offer;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Testing\TestResponse;
+
 use function Pest\Livewire\livewire;
 
 it('shows the master data of the logged in user', function () {

@@ -47,7 +47,7 @@ class OfferPage extends Page
      */
     public Collection $roundToOfferMapping;
 
-    public User|null $user = null;
+    public ?User $user = null;
 
     public EnumPaymentInterval|string|null $userPaymentInterval = null;
 
@@ -72,7 +72,7 @@ class OfferPage extends Page
         return trans(EnumNavigationGroups::YOUR_OFFERS);
     }
 
-    public function getFormModel(): BidderRound|null
+    public function getFormModel(): ?BidderRound
     {
         return BidderRound::query()
             ->started()
@@ -106,8 +106,8 @@ class OfferPage extends Page
         $this->roundToOfferMapping = BidderRoundService::getOffers($this->getFormModel(), $this->user)
             // The dehydration of filament cannot handle null values within a collection with models. Therefore, we insert
             // empty offers instead.
-            ->map(fn (Offer|null $offer) => $offer ?? new Offer());
-        $this->roundToAmountMapping = $this->roundToOfferMapping->map(fn (Offer|null $offer) => $offer?->amount);
+            ->map(fn (?Offer $offer) => $offer ?? new Offer);
+        $this->roundToAmountMapping = $this->roundToOfferMapping->map(fn (?Offer $offer) => $offer?->amount);
         $this->formData([
             self::USER => $this->user,
             self::USER_CONTRIBUTION_GROUP => isset($this->user->contributionGroup) ? trans($this->user->contributionGroup->value) : null,
@@ -144,7 +144,7 @@ class OfferPage extends Page
                     ->required(),
                 ...collect($this->roundToAmountMapping)->map(
                     // See the mount method for setting the corresponding values
-                    fn (string|null $amountOfRound, $numberOfRound) => TextInput::make(self::ROUND_TO_AMOUNT_MAPPING.".$numberOfRound")
+                    fn (?string $amountOfRound, $numberOfRound) => TextInput::make(self::ROUND_TO_AMOUNT_MAPPING.".$numberOfRound")
                         ->label(trans('Offer :numberOfRound', ['numberOfRound' => $numberOfRound]))
                         ->numeric()
                         ->mask(
@@ -174,10 +174,10 @@ class OfferPage extends Page
     {
         $this->validate();
         $atLeastOneChange = false;
-        collect($this->roundToAmountMapping)->each(function (string|null $amountOfRound, $numberOfRound) use (&$atLeastOneChange) {
+        collect($this->roundToAmountMapping)->each(function (?string $amountOfRound, $numberOfRound) use (&$atLeastOneChange) {
             // phpcs:ignore
             /** @var Offer $offer */
-            $offer = $this->user->offers()->where(Offer::COL_ROUND, '=', $numberOfRound)->first() ?? new Offer();
+            $offer = $this->user->offers()->where(Offer::COL_ROUND, '=', $numberOfRound)->first() ?? new Offer;
             $offer->round = $numberOfRound;
             $offer->amount = $amountOfRound;
             $offer->bidderRound()->associate($this->getFormModel());

@@ -22,7 +22,7 @@ class RememberTheBidderRoundTest extends TestCase
     /**
      * This test makes sure a participant without offers gets notified and one with offers does not get notified.
      */
-    public function testNotifyParticipants()
+    public function test_notify_participants()
     {
         Notification::fake();
 

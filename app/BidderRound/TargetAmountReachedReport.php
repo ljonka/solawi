@@ -14,9 +14,8 @@ class TargetAmountReachedReport
          */
         public EnumTargetAmountReachedStatus $status,
         private readonly BidderRound $bidderRound,
-        private readonly BidderRoundReport|null $bidderRoundReport,
-    ) {
-    }
+        private readonly ?BidderRoundReport $bidderRoundReport,
+    ) {}
 
     /**
      * @throws NoRoundFoundException
